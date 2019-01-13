@@ -8,6 +8,7 @@ dependencies:
   - backcall=0.1.0
   - ca-certificates=2018.11.29
   - certifi=2018.11.29
+  - click=7.0
   - decorator=4.3.0
   - ipython=7.2.0
   - ipython_genutils=0.2.0
@@ -31,6 +32,7 @@ dependencies:
   - setuptools=40.6.3
   - six=1.12.0
   - sqlite=3.26.0
+  - tabulate=0.8.2
   - tk=8.6.9
   - traitlets=4.3.2
   - wcwidth=0.1.7
