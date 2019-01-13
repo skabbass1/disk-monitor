@@ -28,8 +28,14 @@ def disk_usage_per_directory(path):
         d.append(DirectoryDiskUsage(root, len(files), total_bytes ))
     return d
 
+def top_n_percent_disk_space_consumers(directory_disk_usage, top_n_percent):
+    n  = int(len(directory_disk_usage) * top_n_percent)
+    return _first_n_items(directory_disk_usage, n)
 
+def top_n_disk_space_consumers(directory_disk_usage, n):
+    return _first_n_items(directory_disk_usage, n)
 
-
-
+def _first_n_items(l, n):
+    s = sorted(l, key=lambda x: x.total_bytes, reverse=True)
+    return s[:n]
 
