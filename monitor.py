@@ -1,6 +1,7 @@
 import os
 import shutil
 from collections import namedtuple
+from functools import reduce
 
 FileSystemUsage = namedtuple(
         'FileSystemUsage',
@@ -11,6 +12,33 @@ DirectoryDiskUsage = namedtuple(
         'DirectoryDiskUsage',
         ['name', 'file_count','total_bytes' ]
         )
+
+
+Summary = namedtuple(
+        'Summary',
+        [
+            'total_file_system',
+            'total_file_system_used',
+            'total_directory_space',
+            'total_directory_files',
+            'top_space_consumers',
+            ]
+        )
+
+def summarize_usage(path):
+    file_system = filesystem_usage(path)
+    per_directory = disk_usage_per_directory(path)
+    total_directory_space = reduce(lambda x, y: x + y.total_bytes, per_directory, 0)
+    total_directory_files = reduce(lambda x, y: x + y.file_count, per_directory, 0)
+    top_n_consumers = top_n_disk_space_consumers(per_directory, 20)
+    return Summary(
+            file_system.total,
+            file_system.used,
+            total_directory_space,
+            total_directory_files,
+            top_n_consumers
+            )
+
 
 def filesystem_usage(path):
     usage =  shutil.disk_usage(path)

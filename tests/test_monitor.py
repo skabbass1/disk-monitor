@@ -63,6 +63,10 @@ def test_top_n_disk_space_consumers():
     assert got == expected
 
 
+def test_summarize_usage():
+    print(monitor.summarize_usage('/Users/sabbas/Documents'))
+
+
 
 
 
