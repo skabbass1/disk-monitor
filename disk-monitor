@@ -1,0 +1,22 @@
+#!/usr/bin/env python
+
+import click
+
+import monitor
+
+@click.group()
+def cli():
+  pass
+
+@cli.command(name='summarize')
+@click.argument('path')
+def summarize(path):
+    summary = monitor.summarize_usage(path)
+    summary_table, top_consumers_table = monitor.tabulate_usage_summary(summary)
+    print()
+    print(summary_table)
+    print()
+    print(top_consumers_table)
+
+if __name__ == '__main__':
+    cli()
