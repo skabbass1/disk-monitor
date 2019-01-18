@@ -64,7 +64,17 @@ def test_top_n_disk_space_consumers():
 
 
 def test_summarize_usage():
-    print(monitor.summarize_usage('/Users/sabbas/Documents'))
+    """
+    it summarizes directory usage correctly
+    """
+    summary = monitor.summarize_usage('tests/test-dir')
+    assert summary.total_file_system_used <= summary.total_file_system
+    assert summary.total_directory_space == pytest.approx(160)
+    assert summary.total_directory_files == 2
+    assert summary.top_space_consumers == [
+            monitor.DirectoryDiskUsage('tests/test-dir/test-dir2', 1, 150),
+            monitor.DirectoryDiskUsage('tests/test-dir', 1, 10),
+            ]
 
 
 

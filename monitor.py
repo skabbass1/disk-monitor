@@ -65,5 +65,6 @@ def top_n_disk_space_consumers(directory_disk_usage, n):
 
 def _first_n_items(l, n):
     s = sorted(l, key=lambda x: x.total_bytes, reverse=True)
+    s = list(filter(lambda x: x.total_bytes > 0, s))
     return s[:n]
 
