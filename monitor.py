@@ -61,7 +61,6 @@ def tabulate_usage_summary(summary):
     top_n_consumers_table = tabulate(top_n_consumers_rows, headers=['Directory Path', 'Directory Space Used', 'Directory File Count'])
     return summary_table, top_n_consumers_table
 
-
 def filesystem_usage(path):
     usage =  shutil.disk_usage(path)
     return FileSystemUsage(
@@ -110,7 +109,4 @@ def _humanize_bytes(b):
         if b <= bound:
             return f'{b / (bound / base):.1f} {unit}'
     return f'{b} Bytes'
-
-
-
 
