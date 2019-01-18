@@ -3,6 +3,8 @@ import shutil
 from collections import namedtuple
 from functools import reduce
 
+from tabulate import tabulate
+
 FileSystemUsage = namedtuple(
         'FileSystemUsage',
         ['total', 'used', 'free', 'percent_used']
@@ -42,6 +44,22 @@ def summarize_usage(path):
             total_directory_files,
             top_n_consumers
             )
+
+def tabulate_usage_summary(summary):
+    summary_table = tabulate(
+            [
+                [
+                    summary.total_file_system,
+                    summary.total_file_system_used,
+                    summary.total_directory_space,
+                    summary.total_directory_files,
+                ]
+            ],
+            headers=['File System Total', 'File System Used', 'Directory Space Used', 'Directory File Count']
+            )
+    top_n_consumers_rows = [[x.name, x.total_bytes, x.file_count] for x in summary.top_space_consumers]
+    top_n_consumers_table = tabulate(top_n_consumers_rows, headers=['Directory Path', 'Directory Space Used', 'Directory File Count'])
+    return summary_table, top_n_consumers_table
 
 
 def filesystem_usage(path):
