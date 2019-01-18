@@ -68,14 +68,24 @@ def test_summarize_usage():
     it summarizes directory usage correctly
     """
     summary = monitor.summarize_usage('tests/test-dir')
-    assert summary.total_file_system_used <= summary.total_file_system
-    assert summary.total_directory_space == pytest.approx(160)
+    assert summary.total_directory_space == '160 Bytes'
     assert summary.total_directory_files == 2
     assert summary.top_space_consumers == [
-            monitor.DirectoryDiskUsage('tests/test-dir/test-dir2', 1, 150),
-            monitor.DirectoryDiskUsage('tests/test-dir', 1, 10),
+            monitor.DirectoryDiskUsage('tests/test-dir/test-dir2', 1, '150 Bytes'),
+            monitor.DirectoryDiskUsage('tests/test-dir', 1, '10 Bytes'),
             ]
 
+@pytest.mark.parametrize("bytes, expected", [
+    (150, '150 Bytes'),
+    (1024, '1.0 KB'),
+    (102432454, '102.4 MB'),
+    (102432454435, '102.4 GB'),
+    (102432454437865, '102.4 TB'),
+    ])
+def test_humanize_bytes(bytes, expected):
+    "it converts bytes to human readable units"
+    got = monitor._humanize_bytes(bytes)
+    assert got == expected
 
 
 
